@@ -1,0 +1,34 @@
+#feat {
+    font-weight: bold;
+}
+
+#tablinks:hover {
+    background-color: red;
+}
+
+#genre, #rating {
+    font-weight: bold;
+}
+
+h3 {
+    text-decoration: underline;
+}
+
+h1 {
+    padding: 25px;
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+    padding: 20px;
+}
+
+.col-md-6, .col-md-12 {
+    align-content: center;
+}
+
+.col-md-4 {
+    align-content: center;
+    padding: 30px;
+}

@@ -1,0 +1,17 @@
+h1  {
+    font-weight: bold;
+    font-size: 50px;
+}
+
+h2 {
+    text-decoration: underline;
+    font-size: 40px;
+}
+
+h3 {
+    font-style: oblique;
+    opacity: 0.90;
+}
+#tablinks:hover {
+    background-color: red;
+}

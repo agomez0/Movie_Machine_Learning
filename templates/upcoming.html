@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fake IMDB</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/upcoming.css') }}">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm" id="don't move" style="background-color: black">
+        <a id="tablinks" href="/" class="navbar-brand" style="color: white">
+            Fake IMDB
+        </a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a id="tablinks" href="/upcoming_movies" class="nav-link" style="color: white">Upcoming Movies</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a id="tablinks" href="/data_exploration" class="nav-link" style="color: white">Data Exploration</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a id="tablinks" href="/gross_predictions" class="nav-link" style="color: white">Gross
+                        Predictions</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4">
+                <aside class="filters">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form>
+                                <div class="form-group">
+                                    <ul class="list-group" id="filters">
+                                        <li class="filter list-group-item">
+                                            <label for="input"><b>Search Movie Title</b></Search></label>
+                                            <input class="form-control" id="input" type="text" placeholder="Search...">
+                                            <br>
+                                            <button id="submit-btn" type="submit"
+                                                class="btn btn-default">Submit</button>
+                                            <button id="clear-btn" type="reset" class="btn btn-default">Clear</button>
+                                            <hr>
+                                            <label for="dataSet"><b>Choose Movie</b></label>
+                                            <select id="dataSet" onchange="optionChanged(this.value)"></select>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="jumbotron">
+                    <div class="row">
+                        <div class="col text-center"></div>
+                    </div>
+                    <hr>
+                    <div class="row" id="movie_data_body">
+                        <div class="col-6 text-center"></div>
+                        <div class="col-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="movie_recommend_header">
+                <h1 class="movie_recommend_title">Movie Recommendations</h1>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6">
+                        </div>
+                        <div class="col-6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6">
+                        </div>
+                        <div class="col-6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6">
+                        </div>
+                        <div class="col-6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/upcoming.js') }}"></script>
+</body>
+
+</html>

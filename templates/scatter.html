@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Gross Predictions</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/scatter.css') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.2/d3.min.js"></script>
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-sm" id="don't move" style="background-color: black">
+    <a id="tablinks" href="/" class="navbar-brand" style="color: white">
+      Fake IMDB
+    </a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a id="tablinks" href="/upcoming_movies" class="nav-link" style="color: white">Upcoming Movies</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a id="tablinks" href="/data_exploration" class="nav-link" style="color: white">Data Exploration</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a id="tablinks" href="/gross_predictions" class="nav-link" style="color: white">Gross Predictions</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Gross Predictions Using Random Forest Regressor Model</h1>
+        <p>We are using a Random Forest Regressor model to predict the gross earnings of a movie based on several movie features listed below. We tested our model on 501 movies from the dataset.</p>
+        <h2>Predicted Gross vs. Actual Gross</h2>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+            <div id="scatter">
+              <!-- We append our chart here. -->
+            </div>
+          </div>
+  
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+      <div class="col-md-4">
+        <h3>Features Used to Train the Model</h3>
+        <p><div id="feat">num_voted_users:</div> The number of people that voted for the movie.</p>
+        <p><div id="feat">budget:</div> Movie budget in dollars.</p>
+        <p><div id="feat">num_user_for_reviews:</div> The number of IMDB users that voted.</p>
+        <p><div id="feat">cast_total_facebook_likes:</div> The sum of all facebook likes from the cast.</p>
+        <p><div id="feat">duration:</div> Movie length in minutes.</p>
+        <p><div id="feat">movie_facebook_likes:</div> Number of facebook likes on the movie page.</p>
+        <p><div id="feat">num_critic_for_reviews:</div> Number of critical reviews on IMDB.</p>
+        <p><div id="feat">imdb_score:</div> IMDB score of movie.</p>
+        Content rating:
+        <ul>
+          <li id="rating">content_rating_R</li>
+          <li id="rating">content_rating_PG</li>
+          <li id="rating">content_rating_PG_13</li>
+          <li id="rating">content_rating_G</li>
+          <li id="rating">content_rating_NC-17</li>
+          <li id="rating">content_rating_X</li>
+        </ul>
+        <br>
+        Genre:
+        <ul>
+          <li id="genre">Family</li>
+          <li id="genre">Adventure</li>
+          <li id="genre">Sci-Fi</li>
+          <li id="genre">Action</li>
+          <li id="genre">Comedy</li>
+          <li id="genre">Fantasy</li>
+          <li id="genre">Drama</li>
+          <li id="genre">Animation</li>
+          <li id="genre">Musical</li>
+          <li id="genre">Thriller</li>
+          <li id="genre">Romance</li>
+          <li id="genre">War</li>
+          <li id="genre">Crime</li>
+          <li id="genre">History</li>
+          <li id="genre">Biography</li>
+          <li id="genre">Western</li>
+          <li id="genre">Mystery</li>
+          <li id="genre">Horror</li>
+          <li id="genre">Sport</li>
+          <li id="genre">Music</li>
+          <li id="genre">Documentary</li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+          <h3>Feature Importance</h3> <br>
+          <div class="output_wrapper">
+              <div class="output">
+              
+              
+              <div class="output_area">
+              
+              
+              <div class="output_html rendered_html output_subarea output_execute_result">
+              <div>
+              <style scoped>
+                  .dataframe tbody tr th:only-of-type {
+                      vertical-align: middle;
+                  }
+              
+                  .dataframe tbody tr th {
+                      vertical-align: top;
+                  }
+              
+                  .dataframe thead th {
+                      text-align: right;
+                  }
+              </style>
+              <table border="1" class="dataframe">
+                <thead>
+                  <tr style="text-align: right;">
+                    <th></th>
+                    <th>Feature</th>
+                    <th>Importances</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>22</th>
+                    <td>num_voted_users</td>
+                    <td>0.398049</td>
+                  </tr>
+                  <tr>
+                    <th>25</th>
+                    <td>budget</td>
+                    <td>0.295090</td>
+                  </tr>
+                  <tr>
+                    <th>24</th>
+                    <td>num_user_for_reviews</td>
+                    <td>0.065732</td>
+                  </tr>
+                  <tr>
+                    <th>23</th>
+                    <td>cast_total_facebook_likes</td>
+                    <td>0.033123</td>
+                  </tr>
+                  <tr>
+                    <th>28</th>
+                    <td>duration</td>
+                    <td>0.031137</td>
+                  </tr>
+                  <tr>
+                    <th>26</th>
+                    <td>movie_facebook_likes</td>
+                    <td>0.031052</td>
+                  </tr>
+                  <tr>
+                    <th>21</th>
+                    <td>num_critic_for_reviews</td>
+                    <td>0.025554</td>
+                  </tr>
+                  <tr>
+                    <th>27</th>
+                    <td>imdb_score</td>
+                    <td>0.024340</td>
+                  </tr>
+                  <tr>
+                    <th>33</th>
+                    <td>content_rating_R</td>
+                    <td>0.022089</td>
+                  </tr>
+                  <tr>
+                    <th>8</th>
+                    <td>Family</td>
+                    <td>0.014764</td>
+                  </tr>
+                  <tr>
+                    <th>31</th>
+                    <td>content_rating_PG</td>
+                    <td>0.013026</td>
+                  </tr>
+                  <tr>
+                    <th>1</th>
+                    <td>Adventure</td>
+                    <td>0.008658</td>
+                  </tr>
+                  <tr>
+                    <th>16</th>
+                    <td>Sci-Fi</td>
+                    <td>0.004777</td>
+                  </tr>
+                  <tr>
+                    <th>0</th>
+                    <td>Action</td>
+                    <td>0.004634</td>
+                  </tr>
+                  <tr>
+                    <th>4</th>
+                    <td>Comedy</td>
+                    <td>0.004344</td>
+                  </tr>
+                  <tr>
+                    <th>9</th>
+                    <td>Fantasy</td>
+                    <td>0.003290</td>
+                  </tr>
+                  <tr>
+                    <th>7</th>
+                    <td>Drama</td>
+                    <td>0.003277</td>
+                  </tr>
+                  <tr>
+                    <th>2</th>
+                    <td>Animation</td>
+                    <td>0.002284</td>
+                  </tr>
+                  <tr>
+                    <th>13</th>
+                    <td>Musical</td>
+                    <td>0.002199</td>
+                  </tr>
+                  <tr>
+                    <th>18</th>
+                    <td>Thriller</td>
+                    <td>0.002142</td>
+                  </tr>
+                  <tr>
+                    <th>15</th>
+                    <td>Romance</td>
+                    <td>0.002096</td>
+                  </tr>
+                  <tr>
+                    <th>32</th>
+                    <td>content_rating_PG-13</td>
+                    <td>0.001942</td>
+                  </tr>
+                  <tr>
+                    <th>19</th>
+                    <td>War</td>
+                    <td>0.000970</td>
+                  </tr>
+                  <tr>
+                    <th>5</th>
+                    <td>Crime</td>
+                    <td>0.000952</td>
+                  </tr>
+                  <tr>
+                    <th>29</th>
+                    <td>content_rating_G</td>
+                    <td>0.000876</td>
+                  </tr>
+                  <tr>
+                    <th>10</th>
+                    <td>History</td>
+                    <td>0.000783</td>
+                  </tr>
+                  <tr>
+                    <th>3</th>
+                    <td>Biography</td>
+                    <td>0.000677</td>
+                  </tr>
+                  <tr>
+                    <th>20</th>
+                    <td>Western</td>
+                    <td>0.000593</td>
+                  </tr>
+                  <tr>
+                    <th>14</th>
+                    <td>Mystery</td>
+                    <td>0.000588</td>
+                  </tr>
+                  <tr>
+                    <th>11</th>
+                    <td>Horror</td>
+                    <td>0.000422</td>
+                  </tr>
+                  <tr>
+                    <th>17</th>
+                    <td>Sport</td>
+                    <td>0.000414</td>
+                  </tr>
+                  <tr>
+                    <th>12</th>
+                    <td>Music</td>
+                    <td>0.000120</td>
+                  </tr>
+                  <tr>
+                    <th>6</th>
+                    <td>Documentary</td>
+                    <td>0.000008</td>
+                  </tr>
+                  <tr>
+                    <th>30</th>
+                    <td>content_rating_NC-17</td>
+                    <td>0.000000</td>
+                  </tr>
+                  <tr>
+                    <th>34</th>
+                    <td>content_rating_X</td>
+                    <td>0.000000</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+              </div>
+              
+              </div>
+              
+              </div>
+              </div>
+              
+              </div>
+
+          <div class="col-md-4">
+            <div>
+                <h3 id="quant">Quantifying the Model</h3><br>
+                <div class="output_area">
+
+                    <div class="prompt"></div>
+                
+                  <div class="output_subarea output_stream output_stdout output_text">
+                    <pre>MSE: 1433083126459797.2<br>R2: 0.7033515430108623</pre>
+                  </div>
+                </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.js"></script>
+  <script src="{{ url_for('static', filename='js/scatter.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.js"></script>
+
+</body>
+
+</html>
